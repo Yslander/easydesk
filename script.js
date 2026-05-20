@@ -57,7 +57,7 @@ function renderizarChamados() {
     // C) Percorre o array e cria um card HTML para cada chamado
     chamados.forEach(function(chamado) {
         
-        // [NOVO] Lógica de sinalização visual: Qual é a cor da prioridade?
+        // Lógica de sinalização visual: Qual é a cor da prioridade?
         let classePrioridade = '';
         if (chamado.prioridade === 'Baixa') {
             classePrioridade = 'badge-baixa';
@@ -67,10 +67,19 @@ function renderizarChamados() {
             classePrioridade = 'badge-alta';
         }
 
+        // Lógica do Botão de Avançar: Só mostra se não estiver concluído
+        let botaoStatus = '';
+        if (chamado.status !== 'Concluído') {
+            botaoStatus = `<button class="btn-status" onclick="avancarStatus(${chamado.id})">Avançar Status ➔</button>`;
+        }
+
+        // [AQUI ESTÁ ELE] Lógica do Botão de Excluir (Lixeira)
+        let botaoExcluir = `<button class="btn-excluir" onclick="excluirChamado(${chamado.id})">🗑️</button>`;
+
         const li = document.createElement('li');
         li.classList.add('card-chamado');
         
-        // Preenche o conteúdo injetando a classe de cor dinâmica na tag <span>
+        // Preenche o conteúdo injetando tudo (inclusive o botaoExcluir ali no final)
         li.innerHTML = `
             <div class="card-cabecalho">
                 <span class="id-chamado">#${chamado.id}</span>
@@ -81,10 +90,40 @@ function renderizarChamados() {
             <div class="card-rodape">
                 <span class="badge ${classePrioridade}">Prioridade: ${chamado.prioridade}</span>
                 <span class="badge">Status: ${chamado.status}</span>
+                ${botaoStatus}
+                ${botaoExcluir}
             </div>
         `;
 
         // Injeta esse novo <li> dentro da nossa <ul> na tela
         listaChamados.appendChild(li);
     });
+}
+
+// 11. Função para avançar o status do chamado (Agora solta no escopo global)
+function avancarStatus(idDoChamado) {
+    // Procura no array qual chamado tem o ID exatamente igual ao que foi clicado
+    const chamadoClicado = chamados.find(c => c.id === idDoChamado);
+
+    if (chamadoClicado) {
+        // Altera a propriedade status baseado no estado atual
+        if (chamadoClicado.status === 'Pendente') {
+            chamadoClicado.status = 'Em Progresso';
+        } else if (chamadoClicado.status === 'Em Progresso') {
+            chamadoClicado.status = 'Concluído';
+        }
+
+        // Como alteramos um dado no JavaScript, mandamos a tela se desenhar de novo para refletir a mudança
+        renderizarChamados();
+    }
+}
+
+// 12. Função para excluir um chamado (Sprint 6)
+function excluirChamado(idDoChamado) {
+    // O método .filter() cria um novo array contendo apenas os chamados que passarem no teste.
+    // O teste é: "Mantenha no array todos os chamados onde o ID seja DIFERENTE (!=) do ID clicado".
+    chamados = chamados.filter(chamado => chamado.id !== idDoChamado);
+
+    // Redesenha a tela com o novo array (que agora está sem o chamado clicado)
+    renderizarChamados();
 }

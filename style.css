@@ -185,3 +185,37 @@ input:focus, textarea:focus, select:focus {
     background-color: #fee2e2; /* Vermelho clarinho pastel */
     color: #991b1b; /* Vermelho escuro para leitura */
 }
+
+/* Estilo do Botão de Avançar Status (Sprint 5) */
+.btn-status {
+    margin-left: auto; /* Empurra o botão todo para a direita */
+    padding: 6px 12px;
+    background-color: var(--cor-texto);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-status:hover {
+    background-color: #0f172a; /* Cor mais escura ao passar o mouse */
+}
+
+/* Estilo do Botão de Excluir (Sprint 6) */
+.btn-excluir {
+    padding: 6px 10px;
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 5px; /* Dá um espacinho do botão de status */
+}
+
+.btn-excluir:hover {
+    background-color: #fca5a5;
+}
