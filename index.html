@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyDesk - Fluxo de Suporte</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <h1>EasyDesk 🖥️</h1>
+        <p>Gestão Inteligente de Chamados</p>
+    </header>
+
+    <main class="container">
+        <section class="painel-cadastro">
+            <h2>Abrir Novo Chamado</h2>
+            <form id="form-chamado">
+                <div class="grupo-input">
+                    <label for="solicitante">Nome do Solicitante</label>
+                    <input type="text" id="solicitante" placeholder="Ex: João Silva" required>
+                </div>
+                
+                <div class="grupo-input">
+                    <label for="descricao">Descrição do Problema</label>
+                    <textarea id="descricao" rows="4" placeholder="Descreva o que está acontecendo..." required></textarea>
+                </div>
+                
+                <div class="grupo-input">
+                    <label for="prioridade">Nível de Prioridade</label>
+                    <select id="prioridade" required>
+                        <option value="Baixa">🟢 Baixa (Pode esperar)</option>
+                        <option value="Média">🟡 Média (Incomoda, mas funciona)</option>
+                        <option value="Alta">🔴 Alta (Parou tudo)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primario">Registrar Chamado</button>
+            </form>
+        </section>
+
+        <section class="painel-historico">
+            <div class="cabecalho-historico">
+                <h2>Chamados Recentes</h2>
+                </div>
+            
+            <ul id="lista-chamados">
+                <div class="estado-vazio">
+                    <p>Nenhum chamado registrado no momento.</p>
+                </div>
+            </ul>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

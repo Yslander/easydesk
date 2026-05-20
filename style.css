@@ -1,0 +1,187 @@
+/* Reset Básico e Variáveis */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --cor-fundo: #f0f4f8;
+    --cor-texto: #334155;
+    --cor-primaria: #2563eb;
+    --cor-primaria-hover: #1d4ed8;
+    --cor-card: #ffffff;
+    --cor-borda: #e2e8f0;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    padding-bottom: 40px;
+}
+
+/* Cabeçalho */
+.cabecalho {
+    background-color: var(--cor-primaria);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Container Principal usando GRID */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* O formulário ocupa 1 parte, a lista ocupa 2 partes */
+    gap: 30px;
+}
+
+/* Estilos Comuns dos Painéis (Cards brancos) */
+.painel-cadastro, .painel-historico {
+    background-color: var(--cor-card);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--cor-borda);
+    height: fit-content;
+}
+
+h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: #1e293b;
+    border-bottom: 2px solid var(--cor-borda);
+    padding-bottom: 10px;
+}
+
+/* Estilos do Formulário */
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+input, textarea, select {
+    padding: 10px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--cor-primaria);
+}
+
+.btn-primario {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.btn-primario:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+/* Histórico Vazio */
+.estado-vazio {
+    text-align: center;
+    color: #94a3b8;
+    padding: 40px 0;
+    font-style: italic;
+}
+
+/* Responsividade para Celulares */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; /* Coloca tudo em uma coluna só */
+    }
+}
+
+/* Estilos dos Cards de Chamados (Sprint 3) */
+#lista-chamados {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaço entre os cards */
+}
+
+.card-chamado {
+    background-color: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.card-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed var(--cor-borda);
+    padding-bottom: 5px;
+}
+
+.nome-solicitante {
+    font-size: 1.1rem;
+    color: var(--cor-primaria);
+    margin-bottom: 5px;
+}
+
+.descricao-chamado {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.card-rodape {
+    display: flex;
+    gap: 10px;
+}
+
+/* Base das etiquetas (badges) de prioridade e status */
+.badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+/* Cores Dinâmicas das Etiquetas de Prioridade (Sprint 4) */
+.badge-baixa {
+    background-color: #dcfce7; /* Verde clarinho pastel */
+    color: #166534; /* Verde escuro para leitura */
+}
+
+.badge-media {
+    background-color: #fef08a; /* Amarelo clarinho pastel */
+    color: #854d0e; /* Marrom escuro para leitura */
+}
+
+.badge-alta {
+    background-color: #fee2e2; /* Vermelho clarinho pastel */
+    color: #991b1b; /* Vermelho escuro para leitura */
+}
