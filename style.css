@@ -219,3 +219,48 @@ input:focus, textarea:focus, select:focus {
 .btn-excluir:hover {
     background-color: #fca5a5;
 }
+
+/* Estilo dos Botões de Filtro (Sprint 7) */
+.cabecalho-historico {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--cor-borda);
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cabecalho-historico h2 {
+    border-bottom: none; 
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.filtros {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-filtro {
+    padding: 6px 12px;
+    background-color: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cor-texto);
+    transition: all 0.3s;
+}
+
+.btn-filtro:hover {
+    background-color: #e2e8f0;
+}
+
+.btn-filtro.ativo {
+    background-color: var(--cor-primaria);
+    color: white;
+    border-color: var(--cor-primaria);
+}

@@ -1,85 +1,74 @@
-// 1. Mapeando os elementos do DOM (Trazendo o HTML para o JavaScript)
+// 1. Mapeando os elementos do DOM
 const formChamado = document.getElementById('form-chamado');
 const inputSolicitante = document.getElementById('solicitante');
 const inputDescricao = document.getElementById('descricao');
 const selectPrioridade = document.getElementById('prioridade');
 
-// 2. Nosso Estado Global (O Array que vai guardar todos os chamados)
+// 2. Nosso Estado Global
 let chamados = [];
+let filtroAtual = 'Todos'; // [NOVO] Aba inicial do filtro
 
 // 3. Interceptando o envio do formulário
 formChamado.addEventListener('submit', function(evento) {
-    // Impede o navegador de recarregar a página (comportamento padrão)
     evento.preventDefault();
 
-    // 4. Criando o objeto do chamado com os dados digitados
     const novoChamado = {
-        id: Date.now(), // Gera um número único baseado nos milissegundos atuais
+        id: Date.now(),
         solicitante: inputSolicitante.value.trim(),
         descricao: inputDescricao.value.trim(),
         prioridade: selectPrioridade.value,
-        status: 'Pendente', // Todo chamado novo nasce como "Pendente"
-        data: new Date().toLocaleDateString('pt-BR') // Salva a data de hoje (DD/MM/AAAA)
+        status: 'Pendente',
+        data: new Date().toLocaleDateString('pt-BR')
     };
 
-    // 5. Adicionando o novo chamado dentro do nosso array
     chamados.push(novoChamado);
-
-    // 6. Imprimindo no Console para testarmos a captura
     console.log("Chamado capturado com sucesso:", novoChamado);
-    console.log("Todos os chamados no sistema:", chamados);
 
-    // 7. Redesenha a lista na tela com o novo chamado
     renderizarChamados();
-
-    // 8. Limpando os campos do formulário para o próximo registro
     formChamado.reset();
 });
 
-// 9. Mapeando a lista (ul) onde os chamados vão aparecer
+// 4. Mapeando a lista
 const listaChamados = document.getElementById('lista-chamados');
 
-// 10. Função responsável por desenhar a interface
+// 5. Função responsável por desenhar a interface
 function renderizarChamados() {
-    // A) Limpa a lista antes de desenhar para não duplicar o que já está lá
     listaChamados.innerHTML = '';
 
-    // B) Se não houver chamados, mostra a mensagem vazia
-    if (chamados.length === 0) {
-        listaChamados.innerHTML = `
-            <div class="estado-vazio">
-                <p>Nenhum chamado registrado no momento.</p>
-            </div>
-        `;
-        return; // Interrompe a função aqui
+    // [NOVO] Filtra o array antes de desenhar, baseado na aba escolhida
+    let chamadosFiltrados = chamados;
+    if (filtroAtual !== 'Todos') {
+        chamadosFiltrados = chamados.filter(c => c.status === filtroAtual);
     }
 
-    // C) Percorre o array e cria um card HTML para cada chamado
-    chamados.forEach(function(chamado) {
-        
-        // Lógica de sinalização visual: Qual é a cor da prioridade?
-        let classePrioridade = '';
-        if (chamado.prioridade === 'Baixa') {
-            classePrioridade = 'badge-baixa';
-        } else if (chamado.prioridade === 'Média') {
-            classePrioridade = 'badge-media';
-        } else if (chamado.prioridade === 'Alta') {
-            classePrioridade = 'badge-alta';
-        }
+    // Se a lista FILTRADA estiver vazia, mostra a mensagem
+    if (chamadosFiltrados.length === 0) {
+        listaChamados.innerHTML = `
+            <div class="estado-vazio">
+                <p>Nenhum chamado encontrado nesta categoria.</p>
+            </div>
+        `;
+        return; 
+    }
 
-        // Lógica do Botão de Avançar: Só mostra se não estiver concluído
+    // Percorre a lista FILTRADA para criar os cards
+    chamadosFiltrados.forEach(function(chamado) {
+        
+        let classePrioridade = '';
+        if (chamado.prioridade === 'Baixa') classePrioridade = 'badge-baixa';
+        else if (chamado.prioridade === 'Média') classePrioridade = 'badge-media';
+        else if (chamado.prioridade === 'Alta') classePrioridade = 'badge-alta';
+
         let botaoStatus = '';
         if (chamado.status !== 'Concluído') {
             botaoStatus = `<button class="btn-status" onclick="avancarStatus(${chamado.id})">Avançar Status ➔</button>`;
         }
 
-        // [AQUI ESTÁ ELE] Lógica do Botão de Excluir (Lixeira)
         let botaoExcluir = `<button class="btn-excluir" onclick="excluirChamado(${chamado.id})">🗑️</button>`;
 
         const li = document.createElement('li');
         li.classList.add('card-chamado');
         
-        // Preenche o conteúdo injetando tudo (inclusive o botaoExcluir ali no final)
         li.innerHTML = `
             <div class="card-cabecalho">
                 <span class="id-chamado">#${chamado.id}</span>
@@ -95,35 +84,39 @@ function renderizarChamados() {
             </div>
         `;
 
-        // Injeta esse novo <li> dentro da nossa <ul> na tela
         listaChamados.appendChild(li);
     });
 }
 
-// 11. Função para avançar o status do chamado (Agora solta no escopo global)
+// 6. Função para avançar o status
 function avancarStatus(idDoChamado) {
-    // Procura no array qual chamado tem o ID exatamente igual ao que foi clicado
     const chamadoClicado = chamados.find(c => c.id === idDoChamado);
 
     if (chamadoClicado) {
-        // Altera a propriedade status baseado no estado atual
         if (chamadoClicado.status === 'Pendente') {
             chamadoClicado.status = 'Em Progresso';
         } else if (chamadoClicado.status === 'Em Progresso') {
             chamadoClicado.status = 'Concluído';
         }
-
-        // Como alteramos um dado no JavaScript, mandamos a tela se desenhar de novo para refletir a mudança
         renderizarChamados();
     }
 }
 
-// 12. Função para excluir um chamado (Sprint 6)
+// 7. Função para excluir
 function excluirChamado(idDoChamado) {
-    // O método .filter() cria um novo array contendo apenas os chamados que passarem no teste.
-    // O teste é: "Mantenha no array todos os chamados onde o ID seja DIFERENTE (!=) do ID clicado".
     chamados = chamados.filter(chamado => chamado.id !== idDoChamado);
+    renderizarChamados();
+}
 
-    // Redesenha a tela com o novo array (que agora está sem o chamado clicado)
+// 8. [NOVO] Função para mudar a aba do filtro
+function filtrarChamados(status) {
+    filtroAtual = status;
+
+    // Atualiza o visual dos botões
+    const botoes = document.querySelectorAll('.btn-filtro');
+    botoes.forEach(botao => botao.classList.remove('ativo'));
+    event.target.classList.add('ativo');
+
+    // Manda desenhar a tela respeitando o filtro
     renderizarChamados();
 }

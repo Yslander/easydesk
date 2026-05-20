@@ -42,7 +42,13 @@
         <section class="painel-historico">
             <div class="cabecalho-historico">
                 <h2>Chamados Recentes</h2>
+                <div class="filtros">
+                    <button class="btn-filtro ativo" onclick="filtrarChamados('Todos')">Todos</button>
+                    <button class="btn-filtro" onclick="filtrarChamados('Pendente')">Pendentes</button>
+                    <button class="btn-filtro" onclick="filtrarChamados('Em Progresso')">Em Progresso</button>
+                    <button class="btn-filtro" onclick="filtrarChamados('Concluído')">Concluídos</button>
                 </div>
+            </div>
             
             <ul id="lista-chamados">
                 <div class="estado-vazio">
